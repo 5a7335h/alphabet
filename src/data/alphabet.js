@@ -5,7 +5,6 @@ const alphabetArray = [
   "D",
   "E",
   "F",
-  "F",
   "G",
   "H",
   "I",
