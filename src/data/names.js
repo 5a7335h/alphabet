@@ -19,7 +19,7 @@ export const nameMap = new Map([
   ["R", "Rabbit"],
   ["S", "Spoon"],
   ["T", "Train"],
-  ["U", "Umbrell"],
+  ["U", "Umbrella"],
   ["V", "Van"],
   ["W", "Whale"],
   ["X", "Xylophone"],

@@ -9,6 +9,7 @@ const Card = props => {
   const handleClick = () => {
     if (isAlphabet) {
       var msg = new SpeechSynthesisUtterance(nameMap.get(props.text));
+      msg.rate = 0.5;
       window.speechSynthesis.speak(msg);
     }
     setState({
