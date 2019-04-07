@@ -3,30 +3,54 @@ import "./App.css";
 import Card from "./components/card/card";
 import alphabetArray from "./data/alphabet";
 import * as sides from "./data/sides";
+import "./styles/App.css";
 
 const App = () => {
   const [state, setState] = useState([...alphabetArray]);
-  let autoIndex = 1;
-  let interval = null;
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [autoIndex, setAutoIndex] = useState(1);
   const doAutoAction = () => {
-    console.log(`starting action: ${autoIndex}`);
+    let prevAutoIndex = null;
+    setAutoIndex(prevIndex => {
+      prevAutoIndex = prevIndex;
+      return prevIndex + 1;
+    });
+    console.log(`starting action: ${prevAutoIndex}`);
     setState(prevstate => {
-      if (autoIndex === 26) {
-        clearInterval(interval);
-      }
       let newArray = prevstate.map(x =>
-        x.id === autoIndex ? { ...x, side: sides.imageSide } : x
+        x.id === prevAutoIndex ? { ...x, side: sides.imageSide } : x
       );
-      autoIndex++;
       return newArray;
     });
   };
-  console.log("executing body");
+
+  const handleAutoplayChk = () => {
+    setAutoPlay(!autoPlay);
+  };
   useEffect(() => {
-    interval = setInterval(doAutoAction, 3000);
-  }, []);
+    debugger;
+    let interval = null;
+    if (autoPlay) {
+      interval = setInterval(doAutoAction, 3000);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [autoPlay]);
+  if (autoIndex === 26) {
+    setAutoPlay(false);
+  }
   return (
     <div>
+      <div>
+        <input
+          type="checkbox"
+          style={{ width: "30px", height: "30px" }}
+          className="form-control"
+          onClick={handleAutoplayChk}
+        />
+        <label>Autoplay</label>
+      </div>
       <div>
         {state.map(x => (
           <Card key={x.id} text={x.letter} side={x.side} />
