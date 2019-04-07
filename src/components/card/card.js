@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./cardLatest.css";
 import * as sides from "../../data/sides";
 import { nameMap } from "../../data/names";
@@ -8,7 +8,7 @@ const Card = props => {
 
   const handleClick = () => {
     try {
-      if (isAlphabet) {
+      if (isAlphabetSide) {
         // var msg = new SpeechSynthesisUtterance(nameMap.get(props.text));
         // msg.rate = 0.5;
         // window.speechSynthesis.speak(msg);
@@ -23,11 +23,25 @@ const Card = props => {
     });
   };
 
-  const isAlphabet = state.side === sides.alphabetSide;
+  useEffect(() => {
+    if (props.side === sides.imageSide) {
+      setState({ side: sides.imageSide });
+      try {
+        window.responsiveVoice.speak(nameMap.get(props.text));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [props.side]);
+
+  const isAlphabetSide = state.side === sides.alphabetSide;
 
   return (
-    <div className={isAlphabet ? "card" : "card-flipped"} onClick={handleClick}>
-      {isAlphabet ? (
+    <div
+      className={isAlphabetSide ? "card" : "card-flipped"}
+      onClick={handleClick}
+    >
+      {isAlphabetSide ? (
         props.text
       ) : (
         <img
