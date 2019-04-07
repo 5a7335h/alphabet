@@ -16,6 +16,9 @@ const App = () => {
       return prevIndex + 1;
     });
     console.log(`starting action: ${prevAutoIndex}`);
+    if (prevAutoIndex === 26) {
+      setAutoPlay(false);
+    }
     setState(prevstate => {
       let newArray = prevstate.map(x =>
         x.id === prevAutoIndex ? { ...x, side: sides.imageSide } : x
@@ -28,7 +31,6 @@ const App = () => {
     setAutoPlay(!autoPlay);
   };
   useEffect(() => {
-    debugger;
     let interval = null;
     if (autoPlay) {
       interval = setInterval(doAutoAction, 3000);
@@ -37,9 +39,6 @@ const App = () => {
       clearInterval(interval);
     };
   }, [autoPlay]);
-  if (autoIndex === 26) {
-    setAutoPlay(false);
-  }
   return (
     <div>
       <div>
