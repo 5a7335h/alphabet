@@ -6,30 +6,39 @@ import * as sides from "./data/sides";
 import "./styles/App.css";
 
 const App = () => {
+
   const [state, setState] = useState([...alphabetArray]);
   const [autoPlay, setAutoPlay] = useState(false);
   const [autoIndex, setAutoIndex] = useState(1);
+
   const doAutoAction = () => {
+
     let prevAutoIndex = null;
+
     setAutoIndex(prevIndex => {
       prevAutoIndex = prevIndex;
       return prevIndex + 1;
     });
+
     console.log(`starting action: ${prevAutoIndex}`);
+
     if (prevAutoIndex === 26) {
       setAutoPlay(false);
     }
+
     setState(prevstate => {
       let newArray = prevstate.map(x =>
         x.id === prevAutoIndex ? { ...x, side: sides.imageSide } : x
       );
       return newArray;
     });
+    
   };
 
   const handleAutoplayChk = () => {
     setAutoPlay(!autoPlay);
   };
+
   useEffect(() => {
     let interval = null;
     if (autoPlay) {
@@ -39,6 +48,7 @@ const App = () => {
       clearInterval(interval);
     };
   }, [autoPlay]);
+
   return (
     <div>
       <div>
@@ -57,6 +67,7 @@ const App = () => {
       </div>
     </div>
   );
+
 };
 
 export default App;
