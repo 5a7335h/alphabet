@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Card from "./components/card/card";
 import alphabetArray from "./data/alphabet";
 import * as sides from "./data/sides";
 import "./styles/App.css";
+import Header from "./components/Header/Header.js";
+import Cards from "./components/Cards/Cards.js";
+
 
 const App = () => {
 
@@ -51,20 +53,8 @@ const App = () => {
 
   return (
     <div>
-      <div>
-        <input
-          type="checkbox"
-          style={{ width: "30px", height: "30px" }}
-          className="form-control"
-          onClick={handleAutoplayChk}
-        />
-        <label>Autoplay</label>
-      </div>
-      <div>
-        {state.map(x => (
-          <Card key={x.id} text={x.letter} side={x.side} />
-        ))}
-      </div>
+      <Header/>
+      <Cards/>
     </div>
   );
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./cardLatest.css";
+import "./CardLatest.css";
 import * as sides from "../../data/sides";
 import { nameMap } from "../../data/names";
 
