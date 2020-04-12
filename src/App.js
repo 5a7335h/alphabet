@@ -11,30 +11,24 @@ import * as Sides from './data/sides.js'
 
 const App = () => {
 
-  //const happyPress = useKeyPress('h');
   const dispatch = useDispatch();
 
   function downHandler({ key }){
     let idOfTheKeyPressed = getIdForLetter(key);
-
     if(idOfTheKeyPressed === null){
       console.log("invalid key pressed!");
     }
     else{
       dispatch(SetFlipStatus({ id: idOfTheKeyPressed, side: Sides.imageSide }));
     }
-
   }
 
   useEffect(()=> {
     window.addEventListener('keydown', downHandler);
-    // Remove event listeners on cleanup
     return () => {
       window.removeEventListener('keydown', downHandler);
     };
-
   }, [])
-
 
   return (
     <div>
@@ -46,3 +40,4 @@ const App = () => {
 };
 
 export default App;
+
