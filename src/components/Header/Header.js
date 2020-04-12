@@ -8,8 +8,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const handleAutoplayChk = ()=> {
-    setAutoPlayStatus( currentChkStatus => !currentChkStatus );
-    dispatch(Actions.ChangeAutoPlay(autoPlayStatus))
+    setAutoPlayStatus(!autoPlayStatus );
+    dispatch(Actions.ChangeAutoPlay(!autoPlayStatus))
   }
 
   return <div>

@@ -14,11 +14,18 @@ function* autoPlayStatusWatcher(){
 }
 
 function* handleAutoplayChange(action){
-    let channel = generateFlipCardsEventsStream();
-    while(true)
-    {
-        const indexOfCardToFlip = yield take(channel);
-        yield put(Actions.SetFlipStatus({ id: indexOfCardToFlip, side: Sides.imageSide }))
+    const autoplayStatus = action.payload;
+
+    if(!autoplayStatus){
+      return;
+    }
+    else{
+      let channel = generateFlipCardsEventsStream();
+      while(true)
+      {
+          const indexOfCardToFlip = yield take(channel);
+          yield put(Actions.SetFlipStatus({ id: indexOfCardToFlip, side: Sides.imageSide }))
+      }
     }
 }
 
