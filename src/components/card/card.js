@@ -7,7 +7,6 @@ import alphabetArray from "../../data/alphabet.js"
 const Card = props => {
 
   let [state, setState] = useState({ side: sides.alphabetSide });
-  let letter = alphabetArray.find(x => x.id === props.id).letter;
 
   const handleClick = () => {
     try {
@@ -50,7 +49,7 @@ const Card = props => {
         <img
           alt="issue"
           style={{ height: "100%", width: "100%" }}
-          src={require(`../../data/images/${letter}.jpg`)}
+          src={require(`../../data/images/${props.text}.jpg`)}
         />
       )}
     </div>
