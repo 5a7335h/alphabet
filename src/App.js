@@ -1,73 +1,43 @@
-import React, { useState, useEffect } from "react";
 import "./App.css";
-import Card from "./components/card/card";
-import alphabetArray from "./data/alphabet";
-import * as sides from "./data/sides";
 import "./styles/App.css";
+import Header from "./components/Header/Header.js";
+import Cards from "./components/Cards/Cards.js";
+import React from "react";
+import { useEffect } from 'react';
+import {getIdForLetter} from './helpers/utils.js'
+import { useDispatch } from "react-redux";
+import { SetFlipStatus } from "./actions";
+import * as Sides from './data/sides.js'
 
 const App = () => {
 
-  const [state, setState] = useState([...alphabetArray]);
-  const [autoPlay, setAutoPlay] = useState(false);
-  const [autoIndex, setAutoIndex] = useState(1);
+  const dispatch = useDispatch();
 
-  const doAutoAction = () => {
-
-    let prevAutoIndex = null;
-
-    setAutoIndex(prevIndex => {
-      prevAutoIndex = prevIndex;
-      return prevIndex + 1;
-    });
-
-    console.log(`starting action: ${prevAutoIndex}`);
-
-    if (prevAutoIndex === 26) {
-      setAutoPlay(false);
+  function downHandler({ key }){
+    let idOfTheKeyPressed = getIdForLetter(key);
+    if(idOfTheKeyPressed === null){
+      console.log("invalid key pressed!");
     }
-
-    setState(prevstate => {
-      let newArray = prevstate.map(x =>
-        x.id === prevAutoIndex ? { ...x, side: sides.imageSide } : x
-      );
-      return newArray;
-    });
-    
-  };
-
-  const handleAutoplayChk = () => {
-    setAutoPlay(!autoPlay);
-  };
-
-  useEffect(() => {
-    let interval = null;
-    if (autoPlay) {
-      interval = setInterval(doAutoAction, 3000);
+    else{
+      dispatch(SetFlipStatus({ id: idOfTheKeyPressed, side: Sides.imageSide }));
     }
+  }
+
+  useEffect(()=> {
+    window.addEventListener('keydown', downHandler);
     return () => {
-      clearInterval(interval);
+      window.removeEventListener('keydown', downHandler);
     };
-  }, [autoPlay]);
+  }, [])
 
   return (
     <div>
-      <div>
-        <input
-          type="checkbox"
-          style={{ width: "30px", height: "30px" }}
-          className="form-control"
-          onClick={handleAutoplayChk}
-        />
-        <label>Autoplay</label>
-      </div>
-      <div>
-        {state.map(x => (
-          <Card key={x.id} text={x.letter} side={x.side} />
-        ))}
-      </div>
+      <Header/>
+      <Cards/>
     </div>
   );
 
 };
 
 export default App;
+

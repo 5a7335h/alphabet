@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./cardLatest.css";
+import "./CardLatest.css";
 import * as sides from "../../data/sides";
 import { nameMap } from "../../data/names";
+import alphabetArray from "../../data/alphabet.js"
 
 const Card = props => {
+
   let [state, setState] = useState({ side: sides.alphabetSide });
 
   const handleClick = () => {
@@ -53,4 +55,6 @@ const Card = props => {
     </div>
   );
 };
+
+
 export default Card;
