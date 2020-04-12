@@ -1,0 +1,32 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(248, 245, 245, 0.2);
+  transition: 0.3s;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-left: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 200px;
+  font-size: 550%;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  border-color: white;
+}
+
+.card-flipped {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-left: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 200px;
+  font-size: 550%;
+  transform: rotateY(180deg);
+}
