@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./CardLatest.css";
 import * as sides from "../../data/sides";
 import { nameMap } from "../../data/names";
+import alphabetArray from "../../data/alphabet.js"
 
 const Card = props => {
+
   let [state, setState] = useState({ side: sides.alphabetSide });
+  let letter = alphabetArray.find(x => x.id === props.id).letter;
 
   const handleClick = () => {
     try {
@@ -47,10 +50,12 @@ const Card = props => {
         <img
           alt="issue"
           style={{ height: "100%", width: "100%" }}
-          src={require(`../../data/images/${props.text}.jpg`)}
+          src={require(`../../data/images/${letter}.jpg`)}
         />
       )}
     </div>
   );
 };
+
+
 export default Card;

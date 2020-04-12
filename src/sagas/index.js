@@ -10,7 +10,7 @@ export default function* rootSaga()
 }
 
 function* autoPlayStatusWatcher(){
-    yield takeLatest(Actions.ChangeAutoPlay, handleAutoplayChange)
+    yield takeLatest(Constants.AutoPlayChangedActionType, handleAutoplayChange)
 }
 
 function* handleAutoplayChange(action){
@@ -18,24 +18,27 @@ function* handleAutoplayChange(action){
     while(true)
     {
         const indexOfCardToFlip = yield take(channel);
-        yield put(Actions.SetFlipStatus({ index: indexOfCardToFlip, side: Sides.imageSide }))
+        yield put(Actions.SetFlipStatus({ id: indexOfCardToFlip, side: Sides.imageSide }))
     }
 }
 
 function generateFlipCardsEventsStream() {
 
-    let remainingCardsToBeFlipped = Constants.AlphabetCount;
+    let flipIndex = 0;
+    const autoPlayIntervalInSeconds = 3;
 
     return eventChannel(
         emitter => {
           const iv = setInterval(() => {
-          remainingCardsToBeFlipped -= 1
-          if (remainingCardsToBeFlipped > 0) {
-            emitter(remainingCardsToBeFlipped) //not consuming remainingCardsToBeFlipped for now in the calling function
+            flipIndex += 1
+
+          if (flipIndex <= Constants.AlphabetCount) {
+            emitter(flipIndex)
           } else {
             emitter(END)
           }
-        }, 1000);
+
+        }, autoPlayIntervalInSeconds*1000);
         return () => {
           clearInterval(iv)
         }

@@ -9,7 +9,7 @@ const Cards = () =>
     return <div>
         {
             alphabetArray.map(x => (
-            <Card key={x.id} text={x.letter} side={x.side} />
+                <Card key={x.id} id={x.id} text={x.letter} side={x.side} />
             ))
         }
       </div>;
