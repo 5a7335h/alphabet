@@ -10,7 +10,7 @@ const initialState = {
 export function alphabetEventReducer( state = initialState, action){
     switch(action.type){
         case Constants.SetFlipStatusActionType:
-            return mergeFlipArray(state, action.payload);
+            return { ...state, alphabetArray :  mergeFlipArray(state.alphabetArray, action.payload) };
         case Constants.ChangeCategoryActionType:
             return {...state, category: action.payload};
         default:
