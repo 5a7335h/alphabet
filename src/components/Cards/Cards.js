@@ -4,7 +4,7 @@ import React from 'react';
 
 const Cards = () =>
 {
-    const alphabetArray = useSelector(state => state.alphabet);
+    const alphabetArray = useSelector(state => state.alphabetState.alphabetArray);
 
     return <div>
         {
