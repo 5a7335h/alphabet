@@ -1,0 +1,6 @@
+version: '3'
+services:
+  alphatbet-ui:
+    image: spagolu9/alphabet-ui:latest
+    ports:
+      - "5018:5004"
