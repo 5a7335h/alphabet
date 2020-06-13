@@ -58,7 +58,13 @@ object BuildDockerImage : BuildType({
                 docker build -t alphabetui:1.0.${'$'}BUILD_NUMBER .
             """.trimIndent()
         }
+        script {
+            scriptContent = """
+                ls -l
+            """.trimIndent()
+        }
     }
+
 
     triggers {
         vcs {
