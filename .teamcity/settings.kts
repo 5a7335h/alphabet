@@ -30,8 +30,9 @@ version = "2020.1"
 
 project {
 
+    buildType(BuildDockerImage)
+    buildType(PublishDockerImage)
     buildType(Deploy)
-    buildType(BuildPublishImage)
 
     features {
         githubConnection {
@@ -41,11 +42,11 @@ project {
             clientSecret = "credentialsJSON:a120e2c9-ce8c-4251-9851-61ee7afcd6cc"
         }
     }
-    buildTypesOrder = arrayListOf(BuildPublishImage)
+    buildTypesOrder = arrayListOf(BuildDockerImage)
 }
 
-object BuildPublishImage : BuildType({
-    name = "BuildPublishImage"
+object BuildDockerImage : BuildType({
+    name = "BuildDockerImage"
 
     vcs {
         root(DslContext.settingsRoot)
@@ -54,12 +55,7 @@ object BuildPublishImage : BuildType({
     steps {
         script {
             scriptContent = """
-                #ls -a
                 docker build -t alphabetui:1.0.${'$'}BUILD_NUMBER .
-                cat /home/pi/secret/teamcity-docker-password.txt | docker login --username spagolu9 --password-stdin
-                docker tag alphabetui:1.0.${'$'}BUILD_NUMBER spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
-                docker push spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
-                echo "##teamcity[setParameter name='env.CurrentImageName' value='spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER']"
             """.trimIndent()
         }
     }
@@ -69,6 +65,39 @@ object BuildPublishImage : BuildType({
             branchFilter = ""
             perCheckinTriggering = true
             enableQueueOptimization = false
+        }
+    }
+})
+
+object PublishDockerImage : BuildType({
+    name = "PublishDockerImage"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        script {
+            scriptContent = """
+                cat /home/pi/secret/teamcity-docker-password.txt | docker login --username spagolu9 --password-stdin
+                docker tag alphabetui:1.0.${'$'}BUILD_NUMBER spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
+                docker push spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
+                echo "##teamcity[setParameter name='env.CurrentImageName' value='spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER']"
+            """.trimIndent()
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "${BuildDockerImage.id}"
+            successfulOnly = true
+        }
+    }
+
+    dependencies {
+        snapshot(BuildDockerImage) {
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
 })
@@ -85,20 +114,20 @@ object Deploy : BuildType({
             scriptContent = """
                 docker stop alphabet-ui
                 docker rm alphabet-ui
-                docker run -d --name=alphabet-ui -p 5018:5004 --restart=always ${BuildPublishImage.depParamRefs["env.CurrentImageName"]}
+                docker run -d --name=alphabet-ui -p 5018:5004 --restart=always ${PublishDockerImage.depParamRefs["env.CurrentImageName"]}
             """.trimIndent()
         }
     }
 
     triggers {
         finishBuildTrigger {
-            buildType = "${BuildPublishImage.id}"
+            buildType = "${PublishDockerImage.id}"
             successfulOnly = true
         }
     }
 
     dependencies {
-        snapshot(BuildPublishImage) {
+        snapshot(PublishDockerImage) {
             onDependencyFailure = FailureAction.CANCEL
             onDependencyCancel = FailureAction.CANCEL
         }
