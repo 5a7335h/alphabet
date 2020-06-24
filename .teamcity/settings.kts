@@ -34,14 +34,6 @@ project {
     buildType(PublishDockerImage)
     buildType(Deploy)
 
-    features {
-        githubConnection {
-            id = "PROJECT_EXT_2"
-            displayName = "GitHub.com"
-            clientId = "bc439535b8fa6b1d0cc0"
-            clientSecret = "credentialsJSON:a120e2c9-ce8c-4251-9851-61ee7afcd6cc"
-        }
-    }
     buildTypesOrder = arrayListOf(BuildDockerImage)
 }
 
