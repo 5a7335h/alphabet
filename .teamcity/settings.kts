@@ -84,7 +84,7 @@ object PublishDockerImage : BuildType({
                 cat /home/pi/secret/teamcity-docker-password.txt | docker login --username spagolu9 --password-stdin
                 docker tag alphabetui:latest %imageTag%
                 docker tag alphabetui:latest spagolu9/alphabet-ui:latest
-                docker push %imageTag%
+                docker push spagolu9/alphabet-ui
             """.trimIndent()
         }
     }
