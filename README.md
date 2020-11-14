@@ -8,10 +8,10 @@ A basic React app that displays English alphabet letters as flippable cards. The
 `npm start`
  
 ## Tools/Frameworks Used
-React
-React Hooks
-Redux Hooks
-Redux Saga
+React  
+React Hooks  
+Redux Hooks  
+Redux Saga  
 Docker
 
 Docker image for this app is avaiable at : https://hub.docker.com/repository/docker/spagolu9/alphabet-ui
