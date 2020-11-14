@@ -4,6 +4,7 @@ A basic React app that displays English alphabet letters as flippable cards. The
 
 ## Run the app
 `npm install`
+
 `npm start`
  
 ## Tools/Frameworks Used
