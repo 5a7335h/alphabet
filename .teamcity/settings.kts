@@ -55,7 +55,7 @@ object BuildDockerImage : BuildType({
     steps {
         script {
             scriptContent = """
-                docker build -t alphabetui:1.0.${'$'}BUILD_NUMBER .
+                docker build -t alphabetui:latest .
             """.trimIndent()
         }
         script {
@@ -82,13 +82,16 @@ object PublishDockerImage : BuildType({
         root(DslContext.settingsRoot)
     }
 
+    params{
+        param("imageTag", "spagolu9/alphabet-ui:1.0.%build.number%")
+    }
+
     steps {
         script {
             scriptContent = """
                 cat /home/pi/secret/teamcity-docker-password.txt | docker login --username spagolu9 --password-stdin
-                docker tag alphabetui:1.0.${'$'}BUILD_NUMBER spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
-                docker push spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER
-                echo "##teamcity[setParameter name='env.CurrentImageName' value='spagolu9/alphabet-ui:1.0.${'$'}BUILD_NUMBER']"
+                docker tag alphabetui:latest %imageTag%
+                docker push %imageTag%
             """.trimIndent()
         }
     }
@@ -120,7 +123,7 @@ object Deploy : BuildType({
             scriptContent = """
                 docker stop alphabet-ui
                 docker rm alphabet-ui
-                docker run -d --name=alphabet-ui -p 5018:5004 --restart=always ${PublishDockerImage.depParamRefs["env.CurrentImageName"]}
+                docker run -d --name=alphabet-ui -p 5018:5004 --restart=always alphabetui:latest
             """.trimIndent()
         }
     }
