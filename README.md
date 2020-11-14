@@ -15,3 +15,7 @@ Redux Saga
 Docker
 
 Docker image for this app is avaiable at : https://hub.docker.com/repository/docker/spagolu9/alphabet-ui
+
+### Run this app as docker container
+`docker run -d -p 5104:5004 spagolu9/alphabet-ui:latest`
+
